@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssh.dao.mybatis.behospitalized.IMyPrescriptionDAO">
+	 <select id="selectPrescriptionStartDateToEndDate" resultMap="PrescriptionVo">
+		select * from Prescription p 
+		<where>
+			<if test="prescriptionId != null">
+				and p.PRESCRIPTION_ID like #{prescriptionId}
+			</if>
+			<if test="startTime != null and endTime !=null">
+				and p.PRESCRIPTION_DATE between #{startTime} and #{endTime}
+			</if>
+		</where>
+		order by p.PRESCRIPTION_ID desc
+	</select>
+	 
+	<resultMap type="com.ssh.vo.nurse.PrescriptionVo"  id="PrescriptionVo">
+		<result property="prescriptionId" column="PRESCRIPTION_ID"/>
+		<result property="prescriptionDate" column="PRESCRIPTION_DATE"/>
+		<result property="prescriptionType" column="PRESCRIPTION_TYPE"/>
+		<result property="prescriptionYzzx" column="PRESCRIPTION_YZZX"/>
+		<result property="prescriptionZt" column="PRESCRIPTION_ZT"/>
+	</resultMap> 
+</mapper>

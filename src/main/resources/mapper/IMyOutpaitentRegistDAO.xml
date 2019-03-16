@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssh.dao.mybatis.behospitalized.IMyOutpaitentRegistDAO">
+	 <select id="selectStartDateToEndDate" resultMap="OutpaitentRegistVo">
+		select * from OUTPAITENT_REGIST o inner join DCLASS d on o.DCLASS_ID = d.DCLASS_ID 
+		inner join EMP e on o.EMP_ID = e.EMP_ID  
+		inner join MEDICAL_CARD m on o.MEDICAL_CARD_CARD_ID = m.MEDICAL_CARD_CARD_ID
+		<where>
+			<if test="outpaitentRegistId != null">
+				and o.OUTPAITENT_REGIST_ID like #{outpaitentRegistId}
+			</if>
+			<if test="startTime != null and endTime !=null">
+				and o.OUTPAITENT_REGIST_GUAHAODATE between #{startTime} and #{endTime}
+			</if>
+		</where>
+		order by o.OUTPAITENT_REGIST_ID desc
+	</select>
+	 
+	<resultMap type="com.ssh.vo.behospitalized.OutpaitentRegistVo"  id="OutpaitentRegistVo">
+		<result property="outpaitentRegistId" column="OUTPAITENT_REGIST_ID"/>
+		<result property="outpaitentRegistBinglihao" column="OUTPAITENT_REGIST_BINGLIHAO"/>
+		<result property="outpaitentRegistGuahaodate" column="OUTPAITENT_REGIST_GUAHAODATE"/>
+		<result property="outpaitentRegistGuahaotime" column="OUTPAITENT_REGIST_GUAHAOTIME"/>
+		<result property="outpaitentRegistLiushuihao" column="OUTPAITENT_REGIST_LIUSHUIHAO"/>
+		<result property="outpaitentRegistType" column="OUTPAITENT_REGIST_TYPE"/>
+		<result property="outpaitentRegistZhuangtai" column="OUTPAITENT_REGIST_ZHUANGTAI"/>
+		<association property="dclass" javaType="com.ssh.vo.behospitalized.DclassVo">
+			<id property="dclassId" column="DCLASS_ID"/>
+			<result property="dclassName" column="DCLASS_NAME"/>
+		</association>
+		<association property="emp" javaType="com.ssh.vo.behospitalized.EmpVo">
+			<id property="empId" column="EMP_ID"/>
+			<result property="empName" column="EMP_NAME"/>
+		</association>
+		<association property="medicalCard" javaType="com.ssh.vo.behospitalized.MedicalCardVo">
+			<id property="medicalCardCardId" column="MEDICAL_CARD_CARD_ID"/>
+			<result property="medicalCardName" column="MEDICAL_CARD_NAME"/>
+		</association>
+	</resultMap> 
+</mapper>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssh.dao.mybatis.staff.IRolesDAO">
+	<resultMap type="com.ssh.vo.staff.RoleVO" id="roleVO">
+		<result property="rolesId" column="ROLES_ID"/>
+		<result property="rolesDate" column="ROLES_DATE"/>
+		<result property="rolesEffect" column="ROLES_EFFECT"/>
+		<result property="rolesName" column="ROLES_NAME"/>
+	</resultMap>
+	<select id="findGradeWhereRoles" resultMap="roleVO">
+		select * from ROLES r
+			<where>
+				<if test="key != null">
+					and r.ROLES_NAME like #{key}
+				</if>
+				<if test="startDate != null and endDate != null">
+					and r.ROLES_DATE between #{startDate} and #{endDate}
+				</if>
+			</where>
+		order by r.ROLES_ID desc
+	</select>
+</mapper>

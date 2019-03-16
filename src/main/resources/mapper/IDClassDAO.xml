@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssh.dao.mybatis.dclass.MyIDClassDAO">
+	<select id="selectDClassGradeWhere" resultMap="DClassVO">
+		select * from DCLASS d inner join DEPT de
+          on d.DEPT_ID = de.DEPT_ID
+		<where>
+			<if test="dclassName != null">
+				and d.DCLASS_NAME like #{dclassName}
+			</if>
+			<if test="dclassFuzeName != null">
+				and d.DCLASS_FUZE_NAME like #{dclassFuzeName}				
+			</if>
+			<if test="dclassState != null">
+				and d.DCLASS_STATE = #{dclassState} 
+			</if>
+			<if test="dclassGrade != null">
+				and d.DCLASS_GRADE = #{dclassGrade}
+			</if>
+			<if test="dclassDept != null">
+				and de.DEPT_ID = #{dclassDept}
+			</if>
+		</where>
+		order by d.DCLASS_ID desc
+	</select>
+	<resultMap type="com.ssh.vo.dclass.DClassVO" id="DClassVO">
+		<id property="dclassId" column="DCLASS_ID"/>
+		<result property="dclassName" column="DCLASS_NAME"/>
+		<result property="dclassAddress" column="DCLASS_ADDRESS"/>
+		<result property="dclassCreateDate" column="DCLASS_CREATE_DATE"/>
+		<result property="dclassExplain" column="DCLASS_EXPLAIN"/>
+		<result property="dclassFuzeName" column="DCLASS_FUZE_NAME"/>
+		<result property="dclassGrade" column="DCLASS_GRADE"/>
+		<result property="dclassRemark" column="DCLASS_REMARK"/>
+		<result property="dclassState" column="DCLASS_STATE"/>
+		 	<association property="dept" javaType="com.ssh.vo.dept.DeptVO">
+				<id property="deptId" column="DEPT_ID"/>
+				<result property="deptName" column="DEPT_NAME"/>
+			</association> 
+	</resultMap>
+</mapper>

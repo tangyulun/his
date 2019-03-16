@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssh.dao.mybatis.operation.GaojiChaxunDao">
+		<select id="selectMessShijian" resultMap="JianyanMessVo">
+		select * from JIANYAN_MESS j
+		inner join OUTPAITENT_REGIST o on j.OUTPAITENT_REGIST_ID = o.OUTPAITENT_REGIST_ID
+		inner join Emp e on j.EMP_ID = e.EMP_ID
+		<where>
+		<if test="jianyanMessId !=null">
+			and j.JIANYAN_MESS_ID like #{jianyanMessId}
+		</if>
+		<if test="oneTime !=null and trueTime !=null">
+			and j.JIANYAN_MESS_DATE between #{oneTime} and #{trueTime}
+		</if>
+		</where>
+		order by j.JIANYAN_MESS_ID desc
+		</select>
+		<resultMap type="com.ssh.vo.operation.JianyanMessVo"  id="JianyanMessVo">
+		<id property="jianyanMessId" column="JIANYAN_MESS_ID"/>
+		
+		<result property="jianyanMessDate" column="JIANYAN_MESS_DATE"/>
+		<result property="jianyanMessDclass" column="JIANYAN_MESS_DCLASS"/>
+		<result property="jianyanMessState" column="JIANYAN_MESS_STATE"/>
+		<result property="jianyanMessYangbenType" column="JIANYAN_MESS_YANGBEN_TYPE"/>
+		<association property="emp" javaType="com.ssh.vo.operation.EmpsVo">
+				<id property="empId" column="EMP_ID"/>
+				<result property="empName" column="EMP_NAME"/>
+			</association>
+		<association property="outpaitentRegist" javaType="com.ssh.vo.operation.OutpaitentRegistVo">
+				<id property="outpaitentRegistId" column="OUTPAITENT_REGIST_ID"/>
+			</association>
+	</resultMap> 
+</mapper>

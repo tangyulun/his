@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssh.dao.mybatis.dean.IMinstrumenthuizonDAO">
+	<select id="mohufindinstrument" resultMap="InstrumentCaigouVo">
+		select * from INSTRUMENT_CAIGOU i inner join SUPPLIER s on i.SUPPLIER_ID=s.SUPPLIER_ID
+		<where>
+			<if test="instrumentCaigouId != null">
+				and i.INSTRUMENT_CAIGOU_ID like #{instrumentCaigouId} or i.SUPPLIER_NAME like #{instrumentCaigouId}
+			</if>
+			<if test="startTime != null and endTime != null ">
+				and i.INSTRUMENT_CAIGOU_DH_DATE between #{startTime} and #{endTime}
+			</if>
+			<if test="instrumentCaigouState != null">
+				and i.INSTRUMENT_CAIGOU_STATE = #{instrumentCaigouState}
+			</if>
+		</where>
+		order by i.INSTRUMENT_CAIGOU_ID desc
+	</select>
+	
+	<resultMap type="com.ssh.vo.instrument.InstrumentCaigouVo" id="InstrumentCaigouVo">
+			<result property="instrumentCaigouId" column="INSTRUMENT_CAIGOU_ID"/>
+		<result property="instrumentCaigouAddress" column="INSTRUMENT_CAIGOU_ADDRESS"/>
+		<result property="instrumentCaigouDhDate" column="INSTRUMENT_CAIGOU_DH_DATE"/>
+		<result property="instrumentCaigouGhDate" column="INSTRUMENT_CAIGOU_GH_DATE"/>
+		<result property="instrumentCaigouMoney" column="INSTRUMENT_CAIGOU_MONEY"/>
+		<result property="instrumentCaigouState" column="INSTRUMENT_CAIGOU_STATE"/>
+	</resultMap>
+</mapper>

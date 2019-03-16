@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssh.dao.mybatis.dept.MyIDeptDAO">
+	<select id="selectGradeWhere" resultMap="deptVO">
+		select * from DEPT d
+		<where>
+			<if test="deptName != null">
+				and d.DEPT_NAME like #{deptName}
+			</if>
+			<if test="deptFuzeName != null">
+				and d.DEPT_FUZE_NAME like #{deptFuzeName}
+			</if>
+			<if test="state != null">
+				and d.DEPT_STATE = #{state}
+			</if>
+			<if test="grade != null">
+				and d.DEPT_GRADE = #{grade}
+			</if>
+		</where>
+		order by d.DEPT_ID desc
+	</select>
+	<resultMap type="com.ssh.vo.dept.DeptVO" id="deptVO">
+		<result property="deptId" column="DEPT_ID"/>
+		<result property="deptAddress" column="DEPT_ADDRESS"/>
+		<result property="deptCreateDate" column="DEPT_CREATE_DATE"/>
+		<result property="deptExplain" column="DEPT_EXPLAIN"/>
+		<result property="deptFuzeName" column="DEPT_FUZE_NAME"/>
+		<result property="deptGrade" column="DEPT_GRADE"/>
+		<result property="deptName" column="DEPT_NAME"/>
+		<result property="deptPizhunDate" column="DEPT_PIZHUN_DATE"/>
+		<result property="deptPizhunName" column="DEPT_PIZHUN_NAME"/>
+		
+		<result property="deptRemark" column="DEPT_REMARK"/>
+		<result property="deptShenheDate" column="DEPT_SHENHE_DATE"/>
+		<result property="deptShenheName" column="DEPT_SHENHE_NAME"/>
+		<result property="deptState" column="DEPT_STATE"/>
+	</resultMap>
+
+</mapper>

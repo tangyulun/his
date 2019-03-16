@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssh.dao.mybatis.behospitalized.IMyHospitaNotifyDAO">
+	 <select id="selectHosStartDateToEndDate" resultMap="HospitaNotifyVo">
+		select * from HOSPITA_NOTIFY h 
+		<where>
+			<if test="hospitalNotifyNumber != null">
+				and h.HOSPITAL_NOTIFY_NUMBER like #{hospitalNotifyNumber}
+			</if>
+			<if test="startTime != null and endTime !=null">
+				and h.HOSPITAL_NOTIFY_DATE between #{startTime} and #{endTime}
+			</if>
+		</where>
+		order by h.HOSPITAL_NOTIFY_NUMBER desc
+	</select>
+	 
+	<resultMap type="com.ssh.vo.behospitalized.HospitaNotifyVo"  id="HospitaNotifyVo">
+		<result property="hospitalNotifyNumber" column="HOSPITAL_NOTIFY_NUMBER"/>
+		<result property="hospitalNotifyAlertTheJine" column="HOSPITAL_NOTIFY_ALERT_THE_JINE"/>
+		<result property="hospitalNotifyCashFeiyong" column="HOSPITAL_NOTIFY_CASH_FEIYONG"/>
+		<result property="hospitalNotifyCashYanjin" column="HOSPITAL_NOTIFY_CASH_YANJIN"/>
+		<result property="hospitalNotifyCost" column="HOSPITAL_NOTIFY_COST"/>
+		<result property="hospitalNotifyDate" column="HOSPITAL_NOTIFY_DATE"/>
+		<result property="hospitalNotifyExplain" column="HOSPITAL_NOTIFY_EXPLAIN"/>
+		<result property="hospitalNotifyState" column="HOSPITAL_NOTIFY_STATE"/>
+	</resultMap> 
+</mapper>

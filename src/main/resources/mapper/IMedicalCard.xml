@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssh.dao.mybatis.outpatient.IMedicalDao">
+	 <select id="selectMedical" resultMap="MedicalVo">
+		select * from MEDICAL_CARD m
+		<where>
+			<if test="searcherId != null">
+				and m.MEDICAL_CARD_CARD_ID like #{searcherId}
+			</if>
+			<if test="startTime != null and endTime !=null">
+				and m.MEDICAL_CARD_DATE between #{startTime} and #{endTime}
+			</if>
+		</where>
+		order by m.MEDICAL_CARD_CARD_ID desc
+	</select>
+	 
+	<resultMap type="com.ssh.vo.outpatient.MedicalVo"  id="MedicalVo">
+		<result property="medicalCardCardId" column="MEDICAL_CARD_CARD_ID"/>
+		<result property="empId" column="EMP_ID"/>
+		<result property="medicalCardAge" column="MEDICAL_CARD_AGE"/>
+		<result property="medicalCardBingzhuang" column="MEDICAL_CARD_BINGZHUANG"/>
+		<result property="medicalCardDate" column="MEDICAL_CARD_DATE"/>
+		<result property="medicalCardHunyanzk" column="MEDICAL_CARD_HUNYANZK"/>
+		<result property="medicalCardIdencard" column="MEDICAL_CARD_IDENCARD"/>
+		<result property="medicalCardName" column="MEDICAL_CARD_NAME"/>
+		<result property="medicalCardSex" column="MEDICAL_CARD_SEX"/>
+	</resultMap> 
+</mapper>

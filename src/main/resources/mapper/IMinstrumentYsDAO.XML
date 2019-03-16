@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssh.dao.mybatis.instrument.InstrumentYanshiTimeDAO">
+	 <select id="selectInstrumentystiem" resultMap="YanshoVo">
+		select * from INSTRUMENT_YS i
+		<where>
+			<if test="instrumentYsId != null">
+				and i.INSTRUMENT_YS_ID like #{instrumentYsId}
+			</if>
+			<if test="startTime != null and endTime !=null">
+				and i.INSTRUMENT_CAIGOU_DH_DATE between #{startTime} and #{endTime}
+			</if>
+		</where>
+		order by i.INSTRUMENT_YS_ID desc
+	</select>
+	 
+	<resultMap type="com.ssh.vo.instrument.YanshoVo"  id="YanshoVo">
+		<result property="instrumentYsId" column="INSTRUMENT_YS_ID"/>
+		<result property="instrumentYsDate" column="INSTRUMENT_YS_DATE"/>
+		<result property="instrumentYsPzdh" column="INSTRUMENT_YS_PZDH"/>
+		<result property="instrumentYsState" column="INSTRUMENT_YS_STATE"/>
+	</resultMap> 
+</mapper>

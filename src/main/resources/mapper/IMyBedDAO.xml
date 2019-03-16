@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssh.dao.mybatis.dean.IMyBingChuangDAO">
+	<select id="selectAllBedsWhereGrade" resultMap="BingChuangVO">
+		select b.* from bed b 
+		left join hospital_registration h on b.bed_id = h.bed_id
+		left join hospita_notify n on h.hospital_notify_number = n.hospital_notify_number
+		left join outpaitent_regist o on n.outpaitent_regist_id = o.outpaitent_regist_id
+		left join medical_card m on o.medical_card_card_id = m.medical_card_card_id
+		<where>
+			<if test="key != null">
+				and  b.bed_name like #{key} or m.medical_card_name like #{key}
+			</if>
+			<if test="state != null">
+				and b.house_state = #{state} 
+			</if>
+			<if test="sex != null">
+				and m.medical_card_sex = #{sex}
+			</if>
+		</where>
+		order by b.bed_id desc
+	</select>
+	<resultMap type="com.ssh.vo.dean.BingChuangVO" id="BingChuangVO">
+		<result property="bedId" column="BED_ID"/>
+		<result property="bedCreateDate" column="BED_CREATE_DATE"/>
+		<result property="bedName" column="BED_NAME"/>
+		<result property="bedRemark" column="BED_REMARK"/>
+		<result property="houseState" column="HOUSE_STATE"/>
+	</resultMap>
+</mapper>

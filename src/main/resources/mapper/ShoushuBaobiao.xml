@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssh.dao.mybatis.operation.ShoushuTimeDao">
+		<select id="selectMessShijiana" resultMap="ShouShuMessVo">
+		select * from SHOUSHU_MESS s
+		inner join HOSPITAL_REGISTRATION h on s.HOSPITAL_REGISTRATION_ID=h.HOSPITAL_REGISTRATION_ID
+		inner join Emp e on s.EMP_ID = e.EMP_ID
+		inner join Shoushu u on s.SHOUSHU_ID=u.SHOUSHU_ID
+		<where>
+			<if test="shoushuMess !=null">
+				and s.SHOUSHU_MESS like #{shoushuMess}
+			</if>
+			 <if test="aTime !=null and bTime !=null">
+				and s.SHOUSHU_MESS_DATE between #{aTime} and #{bTime}
+			</if>
+		</where>
+		order by s.SHOUSHU_MESS desc
+		</select>
+		<resultMap type="com.ssh.vo.operation.ShouShuMessVo"  id="ShouShuMessVo">
+			<id  property="shoushuMess" column="SHOUSHU_MESS"/>
+			<result property="shoushuMessDate" column="SHOUSHU_MESS_DATE"/>
+			<result property="shoushuMessMoney" column="SHOUSHU_MESS_MONEY"/>
+			<result property="shoushuMessState" column="SHOUSHU_MESS_STATE"/>
+			<result property="shoushuMessType" column="SHOUSHU_MESS_TYPE"/>
+			<association property="emp" javaType="com.ssh.vo.operation.EmpsVo">
+				<id property="empId" column="EMP_ID"/>
+				<result property="empName" column="EMP_NAME"/>
+			</association>
+			<association property="hospitalRegistration" javaType="com.ssh.vo.operation.HotregistionVo">
+				<id property="hospitalRegistrationId" column="HOSPITAL_REGISTRATION_ID"/>
+			</association>
+			<association property="shoushu" javaType="com.ssh.vo.operation.ShouShuVo">
+				<id property="shoushuId" column="SHOUSHU_ID"/>
+				<result property="shoushuName" column="SHOUSHU_NAME"/>
+			</association>
+		</resultMap>
+</mapper>

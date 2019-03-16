@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssh.dao.mybatis.outpatient.IOutPatientRegistDao">
+	 <select id="selectOutRegistAndTime" resultMap="OutRegistVo">
+		select * from OUTPAITENT_REGIST o inner join Dclass d on o.DCLASS_ID = d.DCLASS_ID
+			 inner join Emp e on e.EMP_ID = o.EMP_ID
+		<where>
+			<if test="registSearcher != null">
+				and o.OUTPAITENT_REGIST_ID like #{registSearcher}
+			</if>
+			<if test="registType != null">
+				and o.OUTPAITENT_REGIST_TYPE like #{registType}
+			</if>
+			<if test="registStartTime != null and registEndTime!= null">
+				and  o.OUTPAITENT_REGIST_ZHUANGTAI='已处理' 
+				and o.OUTPAITENT_REGIST_GUAHAODATE between #{registStartTime} and #{registEndTime} 
+			</if>
+			order by o.OUTPAITENT_REGIST_GUAHAODATE desc
+		</where>
+		
+	</select>
+	
+	  <select  id="selectDataGridRegistAndTime" resultMap="OutRegistVo">
+		select * from OUTPAITENT_REGIST o inner join DCLASS d on o.DCLASS_ID = d.DCLASS_ID 
+			 inner join MEDICAL_CARD m on m.MEDICAL_CARD_CARD_ID = o.MEDICAL_CARD_CARD_ID
+			 inner join EMP e on e.EMP_ID = o.EMP_ID
+		<where>
+			<if test="registdataStartTime != null and registdataEndTime != null">
+				and o.OUTPAITENT_REGIST_GUAHAODATE between #{registdataStartTime} and #{registdataEndTime} 
+			</if>
+			<if test="registdataSearcher != null">
+				and o.OUTPAITENT_REGIST_ID like #{registdataSearcher}
+			</if>
+			order by o.OUTPAITENT_REGIST_ID DESC
+		</where>
+	</select>
+	
+	<select  id="selectRegistCode" resultMap="OutRegistVo">
+		select * from OUTPAITENT_REGIST o inner join DCLASS d on o.DCLASS_ID = d.DCLASS_ID 
+			 inner join MEDICAL_CARD m on m.MEDICAL_CARD_CARD_ID = o.MEDICAL_CARD_CARD_ID
+			 inner join EMP e on e.EMP_ID = o.EMP_ID
+		<where>
+			<if test="outregistqkStartTime != null and outregistqkEndTime != null">
+				and o.OUTPAITENT_REGIST_GUAHAODATE between #{outregistqkStartTime} and #{outregistqkEndTime} 
+			</if>
+			<if test="outregistqkSearchbox != null">
+				and o.OUTPAITENT_REGIST_ID like #{outregistqkSearchbox}
+			</if>
+			<if test="outregistqkztCombobox != null">
+				and o.OUTPAITENT_REGIST_ZHUANGTAI = #{outregistqkztCombobox}
+			</if>
+			order by o.OUTPAITENT_REGIST_ID DESC
+		</where>
+	</select>
+	
+	<resultMap type="com.ssh.vo.outpatient.OutRegistVo" id="OutRegistVo">
+		<result property="outpaitentRegistId" column="OUTPAITENT_REGIST_ID"/>
+		<result property="outpaitentRegistType" column="OUTPAITENT_REGIST_TYPE"/>
+		<result property="outpaitentRegistGuahaodate" column="OUTPAITENT_REGIST_GUAHAODATE"/>
+		<result property="outpaitentRegistGuahaoTime" column="OUTPAITENT_REGIST_GUAHAOTIME"/>
+		<result property="outpaitentRegistZhuangtai" column="OUTPAITENT_REGIST_ZHUANGTAI"/>
+		<!-- association 一的意思-->
+		<association property="dclass" javaType="com.ssh.vo.dclass.DClassVO">
+			<id property="dclassId" column="DCLASS_ID"/>
+			<result property="dclassName" column="DCLASS_NAME"/>
+		</association>
+		<association property="emp" javaType="com.ssh.vo.login.EmpVo">
+			<id property="empId" column="EMP_ID"/>
+			<result property="empLoginName" column="EMP_LOGIN_NAME"/>
+		</association>
+		<association property="medical" javaType="com.ssh.vo.outpatient.MedicalVo" >
+			<id column="MEDICAL_CARD_CARD_ID" property="medicalCardCardId"/>
+			<result property="medicalCardName" column="MEDICAL_CARD_NAME"/>
+		</association>
+	</resultMap> 
+</mapper>

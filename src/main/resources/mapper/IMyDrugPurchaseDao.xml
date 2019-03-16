@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssh.dao.mybatis.drugstorage.MyDrugPurchaseDao">
+	<select id="startDateEndDate" resultMap="DrugPurchaseVo">
+		select * from DRUG_PURCHASE d inner join EMP e on d.EMP_ID=e.EMP_ID
+		inner join SUPPLIER s on d.SUPPLIER_ID=s.SUPPLIER_ID
+		<where>
+			<if test="drugPurchaseId != null">
+				and d.DRUG_PURCHASE_ID like #{drugPurchaseId}
+			</if>
+			<if test="startTime != null and endTime != null ">
+				and d.DRUG_PURCHASE_DHDATE between #{startTime} and #{endTime}
+			</if>
+		</where>
+		order by d.DRUG_PURCHASE_ID desc
+	</select>
+	
+	<resultMap type="com.ssh.vo.drugstorage.DrugPurchaseVo" id="DrugPurchaseVo">
+		<result property="drugPurchaseId" column="DRUG_PURCHASE_ID" />
+		<result property="drugPurchaseDhdate" column="DRUG_PURCHASE_DHDATE" />
+		<result property="drugPurchaseGhdate" column="DRUG_PURCHASE_GHDATE" />
+		<result property="drugPurchaseJhdz" column="DRUG_PURCHASE_JHDZ" />
+		<result property="drugPurchaseMoney" column="DRUG_PURCHASE_MONEY" />
+		<result property="drugPurchaseZt" column="DRUG_PURCHASE_ZT" />
+		<association property="emp" javaType="com.ssh.vo.staff.EmpVO">
+			<id property="empId" column="EMP_ID"/>
+			<result property="empLoginName" column="EMP_LOGIN_NAME"/>
+		</association>
+		<association property="supplier" javaType="com.ssh.vo.drugstorage.SupplierVo">
+			<id property="supplierId" column="SUPPLIER_ID"/>
+			<result property="supplierName" column="SUPPLIER_NAME"/>
+		</association>
+	</resultMap>
+</mapper>

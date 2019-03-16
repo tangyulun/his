@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssh.dao.mybatis.dean.IMyDrugDAO">
+	<select id="selectAllDrugDeanGradeWhere" resultMap="drugVo">
+		select  * from drug d 
+		inner join units u on d.units_id = u.units_id
+		inner join drug_type t on d.drug_type_id = t.drug_type_id
+		inner join yaoku_kucun y on d.yaoku_kucun_id = y.yaoku_kucun_id
+		<where>
+			<if test="key != null">
+				and (d.drug_id like #{key} or d.drug_name like #{key})
+			</if>
+			<if test="type != null">
+				and t.drug_type_id = #{type}
+			</if>
+			<if test="ku == -1">
+				and y.YAOKU_KUCUN_BOTTOM > y.YAOKU_KUCUN_NUM
+			</if>
+			<if test="ku == 1">
+				and y.YAOKU_KUCUN_NUM > y.YAOKU_KUCUN_BOTTOM
+			</if>
+			<if test="fang == -1">
+				and  y.YAOFANG_KUCUN_BOTTOM > y.YAOFANG_KUCUN_NUM
+			</if>
+			<if test="fang == 1">
+				and y.YAOFANG_KUCUN_NUM > y.YAOFANG_KUCUN_BOTTOM
+			</if> 
+		</where>
+		order by d.drug_id desc
+	</select>
+	<resultMap type="com.ssh.vo.drugstorage.DrugVo" id="drugVo">
+		<id property="drugId" column="DRUG_ID"/>
+		<result property="drugBz" column="DRUG_BZ"/>
+		<result property="drugBzdate" column="DRUG_BZDATE"/>
+		<result property="drugCf" column="DRUG_CF"/>
+		<result property="drugGg" column="DRUG_GG"/>
+		<result property="drugJx" column="DRUG_JX"/>
+		<result property="drugLsprice" column="DRUG_LSPRICE"/>
+		<result property="drugLx" column="DRUG_LX"/>
+		<result property="drugName" column="DRUG_NAME"/>
+		<result property="drugLsprice" column="DRUG_LSPRICE"/>
+		<result property="drugPfprice" column="DRUG_PFPRICE"/>
+		<result property="drugSccj" column="DRUG_SCCJ"/>
+		<result property="drugShr" column="DRUG_SHR"/>
+		<result property="drugYf" column="DRUG_YF"/>
+		<result property="drugZt" column="DRUG_ZT"/>
+	</resultMap>
+</mapper>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssh.dao.mybatis.operation.TimeMessDao">
+	 <select id="selectMessTime" resultMap="JianyanMessVo">
+		select * from JIANYAN_MESS j
+		inner join OUTPAITENT_REGIST ot on o.OUTPAITENT_REGIST_ID = ot.OUTPAITENT_REGIST_ID
+		inner join HOSPITAL_REGISTRATION zy on z.HOSPITAL_REGISTRATION_ID = zy.HOSPITAL_REGISTRATION_ID
+		inner join Emp ee on e.EMP_ID = ee.EMP_ID
+		<where>
+			<if test="jianyanMessId != null">
+				and j.JIANYAN_MESS_ID like #{jianyanMessId}
+			</if>
+			<if test="firstTime != null and endTime !=null">
+				and j.JIANYAN_MESS_DATE between #{firstTime} and #{endTime}
+			</if>
+			<if test="hospitalRegistrationId != null">
+				and zy.HOSPITAL_REGISTRATION_ID = #{hospitalRegistrationId}	
+			</if>
+			<if test="empId != null">
+				and e.EMP_ID = #{empId}
+			</if>
+		</where>
+		order by j.JIANYAN_MESS_ID desc
+	</select>
+	 
+	<resultMap type="com.ssh.vo.operation.JianyanMessVo"  id="JianyanMessVo">
+		<result property="jianyanMessId" column="JIANYAN_MESS_ID"/>
+		<result property="empId" column="EMP_ID"/>
+		<result property="jianyanMessDate" column="JIANYAN_MESS_DATE"/>
+		<result property="jianyanMessDclass" column="JIANYAN_MESS_DCLASS"/>
+		<result property="jianyanMessState" column="JIANYAN_MESS_STATE"/>
+		<result property="jianyanMessYangbenType" column="JIANYAN_MESS_YANGBEN_TYPE"/>
+	</resultMap> 
+</mapper>

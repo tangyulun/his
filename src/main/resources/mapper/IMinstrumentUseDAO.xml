@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssh.dao.mybatis.dean.IMinstrumentUseDAO">
+	<select id="mohufindinstrumentUse" resultMap="LingyongVo">
+		select * from QX_USE i 
+		<where>
+			<if test="qxUseId != null">
+				and i.QX_USE_ID like #{qxUseId} 
+			</if>
+			<if test="startTime != null and endTime != null ">
+				and i.QX_USE_DATE between #{startTime} and #{endTime}
+			</if>
+			<if test="qxUseState != null">
+				and i.QX_USE_STATE = #{qxUseState}
+			</if>
+		</where>
+		order by i.QX_USE_ID desc
+	</select>
+	
+	<resultMap type="com.ssh.vo.instrument.LingyongVo" id="LingyongVo">
+		<result property="qxUseId" column="QX_USE_ID"/>
+		<result property="qxUseDate" column="QX_USE_DATE"/>
+		<result property="qxUseDuix" column="QX_USE_DUIX"/>
+		<result property="qxUseKeshi" column="QX_USE_KESHI"/>
+		<result property="qxUseState" column="QX_USE_STATE"/>
+		<result property="qxUseWarehouse" column="QX_USE_WAREHOUSE"/>
+	</resultMap>
+</mapper>
